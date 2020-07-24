@@ -98,49 +98,26 @@ class SortingRobot:
         """
         # Fill this out
 
-        # Let's do a basic cocktail shaker sort.
+        # Let's do a selection sort.
 
-        while not self.light_is_on():
-            # Set light on to keep track of if list is sorted
-            self.set_light_on()
+        while self.can_move_right():
+            # Pick up item at current index.
+            self.swap_item()
 
-            # Keep moving right:
+            # Keep moving right, picking up smaller items as we go.
             while self.can_move_right():
-                # Pick up item and compare it with item on right.
-                self.swap_item()
                 self.move_right()
                 if self.compare_item() == 1:
-                    # If held item is bigger, swap and turn light off.
                     self.swap_item()
-                    self.set_light_off()
 
-                # Put item back, regardless of swap, then move forward one.
+            # Return to empty spot and drop item.
+            while self.compare_item() is not None:
                 self.move_left()
-                self.swap_item()
-                self.move_right()
+            self.swap_item()
 
-            # If light is on, list is sorted! If not, turn it back on.
-            if self.light_is_on():
-                break
-            else:
-                self.set_light_on()
-
-            # Keep moving left.
-            while self.can_move_left():
-                # Pick up item and compare it with item on left.
-                self.swap_item()
-                self.move_left()
-                if self.compare_item() == -1:
-                    # If held item is smaller, swap and turn light off.
-                    self.swap_item()
-                    self.set_light_off()
-
-                # Put item back, regardless of swap, then move forward one.
-                self.move_right()
-                self.swap_item()
-                self.move_left()
-
-            # If the light is on at this point, the list is sorted and the while loop ends.
+            # Move right and start over.
+            self.move_right()
+            # If this item is the last, loop ends and list is sorted.
 
 
 if __name__ == "__main__":
